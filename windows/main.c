@@ -55,7 +55,6 @@ VOID SetFileName(__LPCWSTR szFileName)
 static VOID LILYPAD_InitFont()
 {
     LOGFONT *lf = &Globals.lfFont;
-    static const __WCHAR systemW[] = { 'C','o','u','r','i','e','r',' ','N','e','w',0 };
 
     lf->lfHeight        = -13;
     lf->lfWidth         = 0;
@@ -70,7 +69,9 @@ static VOID LILYPAD_InitFont()
     lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
     lf->lfQuality       = ANTIALIASED_QUALITY;
     lf->lfPitchAndFamily = FIXED_PITCH | FF_DONTCARE;
-    lstrcpy(lf->lfFaceName, systemW);
+    LoadString(Globals.hInstance, STRING_FONT_FACENAME_EDITWINDOW,
+	       lf->lfFaceName,
+	       sizeof(lf->lfFaceName) / sizeof(lf->lfFaceName[0]));
 
     Globals.hFont = CreateFontIndirect(lf);
     SendMessage(Globals.hEdit, WM_SETFONT, (WPARAM)Globals.hFont, (LPARAM)FALSE);

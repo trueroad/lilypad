@@ -121,6 +121,7 @@ STRING_OUT_OF_MEMORY,                   "この操作を実行するためのメ
 足りません。\nメモリの空きを増やすためにいくつかのアプリケーションを\n終了して\
 下さい。"
 
+STRING_FONT_FACENAME_EDITWINDOW,	"ＭＳ ゴシック"
 }
 
 #pragma code_page(default)
