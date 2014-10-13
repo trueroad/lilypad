@@ -338,7 +338,7 @@ void DoOpenFile(__LPCWSTR szFileName)
 	return;
     }
 
-    pTemp = HeapAlloc(GetProcessHeap(), 0, size + 1);
+    pTemp = HeapAlloc(GetProcessHeap(), 0, size + 2);
     if (!pTemp)
     {
 	CloseHandle(hFile);
@@ -356,9 +356,10 @@ void DoOpenFile(__LPCWSTR szFileName)
 
     CloseHandle(hFile);
     pTemp[dwNumRead] = 0;
+    pTemp[dwNumRead + 1] = 0;
 
 #ifdef UNICODE
-    wsize = MultiByteToWideChar(CP_UTF8, 0, pTemp, dwNumRead + 1, NULL, 0);
+    wsize = dwNumRead + 1;
     pwTemp = HeapAlloc(GetProcessHeap(), 0, wsize * sizeof(WCHAR));
     if (!pwTemp)
     {
@@ -366,7 +367,7 @@ void DoOpenFile(__LPCWSTR szFileName)
 	ShowLastError();
 	return;
     }
-    MultiByteToWideChar(CP_UTF8, 0, pTemp, dwNumRead + 1, pwTemp, wsize);
+    convert_to_utf16(pTemp, dwNumRead + 1, pwTemp, wsize, NULL);
     if (*pwTemp == 0xFEFF) pwTemp++;
     pwTemp=newline_normalization(pwTemp, &wsize);
     SetWindowText(Globals.hEdit, pwTemp);
